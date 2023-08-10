@@ -1,0 +1,5 @@
+{
+    "src/**/*.{js}": ["eslint --cache --fix .", "eslint ."],
+    "components/**/*.{js}": ["eslint --cache --fix .", "eslint ."],
+    "*.{css,js}": "prettier --write"
+}

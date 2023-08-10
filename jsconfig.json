@@ -1,0 +1,10 @@
+//settings for absolute import
+{
+    "compilerOptions": {
+        "paths":{
+            "@/*":[
+                "./src"
+            ]
+        }
+    }
+}
