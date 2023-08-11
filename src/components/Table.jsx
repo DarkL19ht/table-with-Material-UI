@@ -14,6 +14,7 @@ import { handleOpen, handleClose } from "../redux/counter";
 import { useDispatch, useSelector } from "react-redux";
 import { handlePopulate } from "../redux/populate";
 
+
 import Modal from "@mui/material/Modal";
 import AddIcon from "@mui/icons-material/Add";
 import Box from "@mui/material/Box";
@@ -43,7 +44,7 @@ export default function DataTable() {
 
     const fetchData = async () => {
         setError(null);
-        const response = await axios.get("/data");
+        const response = await axios.get("/products");
 
         // console.log("Response: ", response);
         // console.log("ResponseData: ", response.data);
@@ -63,13 +64,13 @@ export default function DataTable() {
     }, []);
 
     const deleteData = async (id) => {
-        await axios.delete(`/data/${id}`);
+        await axios.delete(`/products/${id}`);
         fetchData();
     };
 
     const handleDelete = (id) => {
         const conf = window.confirm("Do you want to delete");
-        if (conf && records[records.length - 1].firstName) {
+        if (conf && records) {
             deleteData(id);
         }
     };
@@ -77,7 +78,7 @@ export default function DataTable() {
     // Updating single user
 
     const getSingleData = async (id) => {
-        axios.get(`/data/${id}`).then((res) => setSingleUser(res.data));
+        axios.get(`/products/${id}`).then((res) => setSingleUser(res.data));
     };
     const handleUpdate = (id) => {
         getSingleData(id);
@@ -102,7 +103,7 @@ export default function DataTable() {
                     }}
                 >
                     <AddIcon />
-                    New Member
+                    New Product
                 </Button>
                 <Modal
                     open={open}
@@ -128,7 +129,7 @@ export default function DataTable() {
                 </Modal>
             </div>
 
-            <TableContainer component={Paper} sx={{ width: "70%", m: "auto" }}>
+            <TableContainer component={Paper} sx={{ width: "80%", m: "auto" }}>
                 <Table
                     sx={{
                         minWidth: "90%",
@@ -159,14 +160,33 @@ export default function DataTable() {
                                         border: 0
                                     }
                                 }}
+                                className="myTableCell"
+                                onClick={(e) => {
+                                    dispatch(handleOpen());
+                                    dispatch(handlePopulate(records));
+                                    handleUpdate(d.id);
+                                }}
                             >
                                 {/* {console.log(d.firstName)} */}
                                 <TableCell align="left">{d.id}</TableCell>
-                                <TableCell>{d.firstName}</TableCell>
-                                <TableCell>{d.lastName}</TableCell>
-                                <TableCell>{d.age}</TableCell>
-                                <TableCell>{d.occupation}</TableCell>
-                                <TableCell>{d.stateOfOrigin}</TableCell>
+                                <TableCell>{d.title}</TableCell>
+                                <TableCell>{d.price}</TableCell>
+                                <TableCell>{d.category}</TableCell>
+                                <TableCell>{d.description}</TableCell>
+                                <TableCell>
+                                    <Box
+                                        component="img"
+                                        sx={{
+                                            height: 53,
+                                            width: 35,
+                                            maxHeight: { xs: 53, md: 50 },
+                                            maxWidth: { xs: 35, md: 50 }
+                                        }}
+                                        alt="Product Image"
+                                        src={d.image}
+                                    />
+                                </TableCell>
+                                <TableCell>{d.rating.rate}</TableCell>
                                 <TableCell
                                     align="right"
                                     sx={{
@@ -177,13 +197,13 @@ export default function DataTable() {
                                         m: 1,
                                         bgcolor: "background.paper",
                                         borderRadius: 1,
+                                        borderBottom: 0,
                                         flexWrap: "nowrap"
                                     }}
                                 >
                                     <Button
                                         direction="row"
                                         onClick={(e) => {
-                                            e.preventDefault();
                                             dispatch(handleOpen());
                                             dispatch(handlePopulate(records));
                                             handleUpdate(d.id);
@@ -219,7 +239,7 @@ export default function DataTable() {
                                             bgcolor: "error.main",
                                             color: "common.white",
                                             pl: "7.5%",
-                                            pr: "7.5%",
+                                            pr: "10.5%",
                                             mt: "5%",
                                             mb: "5%",
                                             fontSize: "10px"

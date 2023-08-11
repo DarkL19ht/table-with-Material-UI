@@ -101,3 +101,8 @@ select.input-error {
 button:disabled {
     opacity: 0.35;
 }
+
+.myTableCell:hover {
+    background-color: rgb(229, 227, 227) !important;
+    cursor: pointer;
+}

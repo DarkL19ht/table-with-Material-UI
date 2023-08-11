@@ -21,14 +21,14 @@ import { handlePopulate } from "../redux/populate";
 
 const DataForm = ({ isEdit, singleUser }) => {
     const dispatch = useDispatch();
-    const { firstName, lastName, age, occupation, stateOfOrigin } = useSelector(
-        (state) => state.populate
-    );
+    // const { title, price, description, category, image } = useSelector(
+    //     (state) => state.populate
+    // );
     const [error, setError] = useState(null);
     const onSubmit = async (values) => {
         setError(null);
-        const response = await HTTP.post("/data", values).catch((err) => {
-            if (err && err.response) setError(err.response.data.message);
+        const response = await HTTP.post("/products", values).catch((err) => {
+            if (err && err.response) setError(err.response.data.messdescription);
         });
 
         console.log("Response: ", response);
@@ -43,11 +43,11 @@ const DataForm = ({ isEdit, singleUser }) => {
     console.log({ singleUser });
     // const onSubmit = () => {
     //   axios.post("http://localhost:3001/register", {
-    //     firstname,
-    //     lastname,
-    //       age,
-    //       occupation,
-    //       stateOfOrigin
+    //     title,
+    //     price,
+    //       description,
+    //       category,
+    //       image
     //   })
     // }
 
@@ -58,7 +58,7 @@ const DataForm = ({ isEdit, singleUser }) => {
     //   const response = await axios
     //     .post("http://localhost:3001/register", values)
     //     .catch((err) => {
-    //       if(err && err.response) setError(err.response.data.message);
+    //       if(err && err.response) setError(err.response.data.messdescription);
     //     })
 
     //     console.log("Response: ", response)
@@ -86,87 +86,87 @@ const DataForm = ({ isEdit, singleUser }) => {
         }
     });
 
-    console.log(firstName);
+    
     return (
         <form onSubmit={handleSubmit} autoComplete="off">
             <h2> {isEdit ? "Update" : "Create"} </h2>
 
-            <label htmlFor="firstName">Firstname</label>
+            <label htmlFor="=title">Title</label>
             <input
-                value={values.firstName}
+                value={values.title}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                id="firstName"
+                id="title"
                 type="text"
-                placeholder="Enter your Firstname"
+                placeholder="Enter your Title"
                 className={
-                    errors.firstName && touched.firstName ? "input-error" : ""
+                    errors.title && touched.title ? "input-error" : ""
                 }
             />
-            {errors.firstName && touched.firstName && (
-                <p className="error">{errors.firstName}</p>
+            {errors.title && touched.title && (
+                <p className="error">{errors.title}</p>
             )}
 
-            <label htmlFor="lastName">Lastname</label>
+            <label htmlFor="price">Price</label>
             <input
-                value={values.lastName}
+                value={values.price}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                id="lastName"
+                id="price"
                 type="text"
-                placeholder="Enter your lastname"
+                placeholder="Enter your Price"
                 className={
-                    errors.lastName && touched.lastName ? "input-error" : ""
+                    errors.price && touched.price ? "input-error" : ""
                 }
             />
-            {errors.lastName && touched.lastName && (
-                <p className="error">{errors.lastName}</p>
+            {errors.price && touched.price && (
+                <p className="error">{errors.price}</p>
             )}
 
-            <label htmlFor="age">Age</label>
+            <label htmlFor="description">description</label>
             <input
-                value={values.age}
+                value={values.description}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                id="age"
+                id="description"
                 type="number"
-                placeholder="Enter your age"
-                className={errors.age && touched.age ? "input-error" : ""}
+                placeholder="Enter your description"
+                className={errors.description && touched.description ? "input-error" : ""}
             />
-            {errors.age && touched.age && <p className="error">{errors.age}</p>}
+            {errors.description && touched.description && <p className="error">{errors.description}</p>}
 
-            <label htmlFor="occupation">Occupation</label>
+            <label htmlFor="category">category</label>
             <input
-                value={values.occupation}
+                value={values.category}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                id="occupation"
+                id="category"
                 type="text"
-                placeholder="Occupation"
+                placeholder="category"
                 className={
-                    errors.occupation && touched.occupation ? "input-error" : ""
+                    errors.category && touched.category ? "input-error" : ""
                 }
             />
-            {errors.occupation && touched.occupation && (
-                <p className="error">{errors.occupation}</p>
+            {errors.category && touched.category && (
+                <p className="error">{errors.category}</p>
             )}
 
-            <label htmlFor="stateOfOrigin">State of Origin</label>
+            <label htmlFor="image">Image</label>
             <input
-                value={values.stateOfOrigin}
+                value={values.image}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                id="stateOfOrigin"
+                id="image"
                 type="text"
-                placeholder="State Of Origin"
+                placeholder="Image url "
                 className={
-                    errors.stateOfOrigin && touched.stateOfOrigin
+                    errors.image && touched.image
                         ? "input-error"
                         : ""
                 }
             />
-            {errors.stateOfOrigin && touched.stateOfOrigin && (
-                <p className="error">{errors.stateOfOrigin}</p>
+            {errors.image && touched.image && (
+                <p className="error">{errors.image}</p>
             )}
             <button disabled={isSubmitting} type="submit">
                 {isEdit ? "Update" : "Submit"}

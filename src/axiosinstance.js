@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const instance = axios.create({
-  baseURL: 'http://localhost:3001',
+  baseURL: 'https://fakestoreapi.com',
 });
 
 // instance.defaults.headers.common['Authorization'] = 'Auth From instance';
