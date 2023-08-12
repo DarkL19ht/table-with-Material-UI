@@ -12,8 +12,7 @@ import { Button } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { handleOpen, handleClose } from "../redux/counter";
 import { useDispatch, useSelector } from "react-redux";
-import { handlePopulate } from "../redux/populate";
-
+import { handlePopulate, updateProduct } from "../redux/populate";
 
 import Modal from "@mui/material/Modal";
 import AddIcon from "@mui/icons-material/Add";
@@ -35,21 +34,17 @@ export default function DataTable() {
     const [singleUser, setSingleUser] = useState({});
     const [data, setData] = useState([]);
     const dispatch = useDispatch();
-    const { firstName, lastName, age, occupation, stateOfOrigin } = useSelector(
-        (state) => state.counter
-    );
+
     const [error, setError] = useState(null);
 
     const { open } = useSelector((state) => state.counter);
 
+    // const [title, setTitle] = useState("");
+    // const [price, setPrice] = useState("");
+
     const fetchData = async () => {
         setError(null);
         const response = await axios.get("/products");
-
-        // console.log("Response: ", response);
-        // console.log("ResponseData: ", response.data);
-        // console.log("ResponseDataIndex: ", response.data[0].firstName);
-        // console.log(JSON.parse(response.data))
 
         if (response && response.status === 200) {
             setColumns(Object.keys(response.data[0]));
@@ -59,29 +54,56 @@ export default function DataTable() {
         }
     };
 
+    const setUpdate = () => {
+        // setTitle(records)
+        // dispatch(handlePopulate(records));
+
+        dispatch(handlePopulate(records));
+        console.log(records);
+    };
+
+    // records.map((k, i) => {
+    //     setTitle(d.title);
+    //      setPrice(records[i].price);
+
+    // })
+
     useEffect(() => {
         fetchData(); // Call the async function from useEffect
     }, []);
 
+    if (records.length > 1) {
+        setUpdate();
+    }
+
+    // setTimeout(() => {
+    //     setUpdate()
+    // }, 3000);
+
     const deleteData = async (id) => {
-        await axios.delete(`/products/${id}`);
-        fetchData();
+        await axios
+            .delete(`/products/${id}`)
+            
+        
     };
 
     const handleDelete = (id) => {
         const conf = window.confirm("Do you want to delete");
         if (conf && records) {
             deleteData(id);
+            fetchData();
         }
     };
 
     // Updating single user
 
     const getSingleData = async (id) => {
-        axios.get(`/products/${id}`).then((res) => setSingleUser(res.data));
+        await axios
+            .get(`/products/${id}`)
+            .then((res) => setSingleUser(res.data));
     };
-    const handleUpdate = (id) => {
-        getSingleData(id);
+    const handleUpdate = async (id) => {
+        await getSingleData(id);
         setIsEdit(true);
     };
 
@@ -92,6 +114,7 @@ export default function DataTable() {
                     onClick={(e) => {
                         e.preventDefault();
                         dispatch(handleOpen());
+                         setIsEdit(false);
                     }}
                     sx={{
                         ...boxSX,
@@ -129,10 +152,10 @@ export default function DataTable() {
                 </Modal>
             </div>
 
-            <TableContainer component={Paper} sx={{ width: "80%", m: "auto" }}>
+            <TableContainer component={Paper} sx={{ width: "90%", m: "auto" }}>
                 <Table
                     sx={{
-                        minWidth: "90%",
+                        minWidth: "95%",
                         height: "50px",
                         width: "90%",
                         m: "auto"
@@ -144,9 +167,6 @@ export default function DataTable() {
                             {columns.map((c, i) => (
                                 <TableCell key={i}>{c}</TableCell>
                             ))}
-                            {/* <TableCell align="right">
-                            lijknm
-                        </TableCell> */}
                         </TableRow>
                     </TableHead>
 
@@ -162,17 +182,16 @@ export default function DataTable() {
                                 }}
                                 className="myTableCell"
                                 onClick={(e) => {
-                                    dispatch(handleOpen());
-                                    dispatch(handlePopulate(records));
-                                    handleUpdate(d.id);
+                                    //  dispatch(handleOpen());
+                                    //  handleUpdate(d.id);
                                 }}
                             >
                                 {/* {console.log(d.firstName)} */}
                                 <TableCell align="left">{d.id}</TableCell>
                                 <TableCell>{d.title}</TableCell>
                                 <TableCell>{d.price}</TableCell>
-                                <TableCell>{d.category}</TableCell>
                                 <TableCell>{d.description}</TableCell>
+                                <TableCell>{d.category}</TableCell>
                                 <TableCell>
                                     <Box
                                         component="img"
@@ -203,9 +222,9 @@ export default function DataTable() {
                                 >
                                     <Button
                                         direction="row"
-                                        onClick={(e) => {
+                                        onClick={() => {
+                                            // setUpdate();
                                             dispatch(handleOpen());
-                                            dispatch(handlePopulate(records));
                                             handleUpdate(d.id);
                                         }}
                                         sx={{
@@ -223,17 +242,11 @@ export default function DataTable() {
                                         Update
                                     </Button>
                                     <Button
-                                        // onClick={(e) => {
-                                        //     e.preventDefault();
+                                        
 
-                                        //     handleDelete(
-                                        //         records.findIndex(
-                                        //             (el) =>
-                                        //                 el.firstName == d.firstName
-                                        //         )
-                                        //     );
-                                        // }}
-                                        onClick={() => handleDelete(d.id)}
+                                        onClick={() => {
+                                            handleDelete(d.id);
+                                        }}
                                         sx={{
                                             ...boxSX,
                                             bgcolor: "error.main",

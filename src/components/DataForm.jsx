@@ -7,10 +7,10 @@ import * as React from "react";
 import { useFormik } from "formik";
 import basicSchema from "../schemas";
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import httpClient from "../utils/httpClient";
 import { useDispatch, useSelector } from "react-redux";
-import { handlePopulate } from "../redux/populate";
+import { handlePopulate, updateProduct } from "../redux/populate";
 
 // const onSubmit = async (values, actions) => {
 //   console.log(values)
@@ -21,14 +21,14 @@ import { handlePopulate } from "../redux/populate";
 
 const DataForm = ({ isEdit, singleUser }) => {
     const dispatch = useDispatch();
-    // const { title, price, description, category, image } = useSelector(
-    //     (state) => state.populate
-    // );
+    const productList = useSelector((state) => state.populate.value);
+
     const [error, setError] = useState(null);
     const onSubmit = async (values) => {
         setError(null);
         const response = await HTTP.post("/products", values).catch((err) => {
-            if (err && err.response) setError(err.response.data.messdescription);
+            if (err && err.response)
+                setError(err.response.data.messdescription);
         });
 
         console.log("Response: ", response);
@@ -40,7 +40,24 @@ const DataForm = ({ isEdit, singleUser }) => {
         }
     };
 
+    const updateTable = async (values, id) => {
+        setError(null);
+        const response = await HTTP.put(`/products/${id}`, values).catch((err) => {
+            if (err && err.response)
+                setError(err.response.data.messdescription);
+        });
+
+        console.log("Response: ", response);
+
+        if (response && response.status === 200) {
+            alert("Update successful ...");
+        } else {
+            alert("eRROR");
+        }
+    };
+
     console.log({ singleUser });
+    console.log({ productList });
     // const onSubmit = () => {
     //   axios.post("http://localhost:3001/register", {
     //     title,
@@ -79,14 +96,13 @@ const DataForm = ({ isEdit, singleUser }) => {
         handleChange,
         handleSubmit
     } = useFormik({
-        initialValues: singleUser,
+        initialValues: productList,
         validationSchema: basicSchema,
         onSubmit: (values) => {
             alert(JSON.stringify(values, null, 2));
         }
     });
 
-    
     return (
         <form onSubmit={handleSubmit} autoComplete="off">
             <h2> {isEdit ? "Update" : "Create"} </h2>
@@ -98,10 +114,12 @@ const DataForm = ({ isEdit, singleUser }) => {
                 onBlur={handleBlur}
                 id="title"
                 type="text"
-                placeholder="Enter your Title"
-                className={
-                    errors.title && touched.title ? "input-error" : ""
+                placeholder={
+                    isEdit
+                        ? productList[0][singleUser.id - 1].title
+                        : "Enter your Title"
                 }
+                className={errors.title && touched.title ? "input-error" : ""}
             />
             {errors.title && touched.title && (
                 <p className="error">{errors.title}</p>
@@ -114,10 +132,12 @@ const DataForm = ({ isEdit, singleUser }) => {
                 onBlur={handleBlur}
                 id="price"
                 type="text"
-                placeholder="Enter your Price"
-                className={
-                    errors.price && touched.price ? "input-error" : ""
+                placeholder={
+                    isEdit
+                        ? productList[0][singleUser.id - 1].price
+                        : "Enter your Price"
                 }
+                className={errors.price && touched.price ? "input-error" : ""}
             />
             {errors.price && touched.price && (
                 <p className="error">{errors.price}</p>
@@ -129,11 +149,21 @@ const DataForm = ({ isEdit, singleUser }) => {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 id="description"
-                type="number"
-                placeholder="Enter your description"
-                className={errors.description && touched.description ? "input-error" : ""}
+                type="text"
+                placeholder={
+                    isEdit
+                        ? productList[0][singleUser.id - 1].description
+                        : "Enter your Description"
+                }
+                className={
+                    errors.description && touched.description
+                        ? "input-error"
+                        : ""
+                }
             />
-            {errors.description && touched.description && <p className="error">{errors.description}</p>}
+            {errors.description && touched.description && (
+                <p className="error">{errors.description}</p>
+            )}
 
             <label htmlFor="category">category</label>
             <input
@@ -142,7 +172,11 @@ const DataForm = ({ isEdit, singleUser }) => {
                 onBlur={handleBlur}
                 id="category"
                 type="text"
-                placeholder="category"
+                placeholder={
+                    isEdit
+                        ? productList[0][singleUser.id - 1].category
+                        : "Category"
+                }
                 className={
                     errors.category && touched.category ? "input-error" : ""
                 }
@@ -158,17 +192,30 @@ const DataForm = ({ isEdit, singleUser }) => {
                 onBlur={handleBlur}
                 id="image"
                 type="text"
-                placeholder="Image url "
-                className={
-                    errors.image && touched.image
-                        ? "input-error"
-                        : ""
+                placeholder={
+                    isEdit
+                        ? productList[0][singleUser.id - 1].image
+                        : "Image Url"
                 }
+                className={errors.image && touched.image ? "input-error" : ""}
             />
             {errors.image && touched.image && (
                 <p className="error">{errors.image}</p>
             )}
-            <button disabled={isSubmitting} type="submit">
+            <button
+                disabled={isSubmitting}
+                type="submit"
+                onClick={() => {
+                    if (isEdit) {
+                        dispatch(
+                            updateProduct({
+                                id: user.id,
+                                firstName: newFirstName
+                            })
+                        );
+                    }
+                }}
+            >
                 {isEdit ? "Update" : "Submit"}
             </button>
         </form>
