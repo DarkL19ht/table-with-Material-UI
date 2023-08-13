@@ -5,17 +5,22 @@ import store from "./redux/store";
 import { Provider } from "react-redux";
 
 import axios from "axios";
+import "toastr/build/toastr.min.css"; // Import CSS for styling
+import toastr from "toastr";
+
+toastr.options = {
+    positionClass: "toast-top-right",
+    progressBar: true,
+    closeButton: true
+};
 
 // axios.defaults.baseURL = "http://localhost:3001";
 
 axios.interceptors.request.use((request) => {
-    console.log("this is inteceptors" + request);
-    // request.headers.channelName = "Light's web dev"
     return request;
 });
 
 axios.interceptors.response.use((response) => {
-    console.log("this is intec" + response);
     return response;
 });
 

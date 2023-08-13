@@ -1,34 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-
 export const populateSlice = createSlice({
   name: 'populate',
-  initialState: {value: []},
+  initialState: { value: [] },
   reducers: {
     handlePopulate: (state, action) => {
-      state.value.push(action.payload)
-      // console.log(state.value)
+      state.value.push(action.payload);
     },
-
-    deleteProduct: (state, action) => {
-            console.log(state.value)
-            state.value = state.value.filter((product) => product.id !== action.payload.id)
-            console.log(state.value)
-    },
-
-    updateProduct: (state, action) => {
-            state.value.map(user => {
-                if (user.id == action.payload.id){
-                    user.title = action.payload.title;
-                    user.title = action.payload.price;
-                    user.title = action.payload.description;
-                    user.title = action.payload.category;
-                    user.title = action.payload.image;
-                    
-                }
-            })
-        }
-
   },
 });
 

@@ -39,9 +39,6 @@ export default function DataTable() {
 
     const { open } = useSelector((state) => state.counter);
 
-    // const [title, setTitle] = useState("");
-    // const [price, setPrice] = useState("");
-
     const fetchData = async () => {
         setError(null);
         const response = await axios.get("/products");
@@ -55,36 +52,19 @@ export default function DataTable() {
     };
 
     const setUpdate = () => {
-        // setTitle(records)
-        // dispatch(handlePopulate(records));
-
         dispatch(handlePopulate(records));
-        console.log(records);
     };
 
-    // records.map((k, i) => {
-    //     setTitle(d.title);
-    //      setPrice(records[i].price);
-
-    // })
-
     useEffect(() => {
-        fetchData(); // Call the async function from useEffect
+        fetchData();
     }, []);
 
     if (records.length > 1) {
         setUpdate();
     }
 
-    // setTimeout(() => {
-    //     setUpdate()
-    // }, 3000);
-
     const deleteData = async (id) => {
-        await axios
-            .delete(`/products/${id}`)
-            
-        
+        await axios.delete(`/products/${id}`);
     };
 
     const handleDelete = (id) => {
@@ -114,7 +94,7 @@ export default function DataTable() {
                     onClick={(e) => {
                         e.preventDefault();
                         dispatch(handleOpen());
-                         setIsEdit(false);
+                        setIsEdit(false);
                     }}
                     sx={{
                         ...boxSX,
@@ -131,7 +111,6 @@ export default function DataTable() {
                 <Modal
                     open={open}
                     onClose={(e) => {
-                        // e.preventDefault()
                         dispatch(handleClose());
                     }}
                     aria-labelledby="parent-modal-title"
@@ -171,7 +150,6 @@ export default function DataTable() {
                     </TableHead>
 
                     <TableBody>
-                        {/* {console.log(records[records.length - 1])} */}
                         {records.map((d, i) => (
                             <TableRow
                                 key={i}
@@ -181,12 +159,7 @@ export default function DataTable() {
                                     }
                                 }}
                                 className="myTableCell"
-                                onClick={(e) => {
-                                    //  dispatch(handleOpen());
-                                    //  handleUpdate(d.id);
-                                }}
                             >
-                                {/* {console.log(d.firstName)} */}
                                 <TableCell align="left">{d.id}</TableCell>
                                 <TableCell>{d.title}</TableCell>
                                 <TableCell>{d.price}</TableCell>
@@ -242,8 +215,6 @@ export default function DataTable() {
                                         Update
                                     </Button>
                                     <Button
-                                        
-
                                         onClick={() => {
                                             handleDelete(d.id);
                                         }}
