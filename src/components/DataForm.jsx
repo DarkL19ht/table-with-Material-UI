@@ -7,8 +7,6 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { handleApiError } from "../errorHandling";
 import toastr from "toastr";
-import Swal from "sweetalert2";
-
 
 
 
