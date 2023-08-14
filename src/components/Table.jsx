@@ -20,6 +20,9 @@ import Box from "@mui/material/Box";
 import DataForm from "./DataForm";
 import style from "../style/";
 
+import toastr from "toastr";
+import Swal from "sweetalert2";
+
 const boxSX = {
     "&:hover": {
         border: "1px solid lightblue",
@@ -67,12 +70,31 @@ export default function DataTable() {
         await axios.delete(`/products/${id}`);
     };
 
-    const handleDelete = (id) => {
-        const conf = window.confirm("Do you want to delete");
-        if (conf && records) {
-            deleteData(id);
-            fetchData();
-        }
+    const handleDelete = (title, id) => {
+        Swal.fire({
+            title: "You won't be able to revert this!",
+
+            input: "text",
+            inputAttributes: {
+                autocapitalize: "off",
+                placeholder: "Enter the title"
+            },
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.value == title && result.isConfirmed) {
+                deleteData(id);
+                fetchData();
+                Swal.fire("Deleted!", "Your file has been deleted.", "success");
+            } else if (result.value != title) {
+                toastr.error("Title doesn't match!", "Error");
+            } else {
+                toastr.error("Delete failed!", "Error");
+            }
+        });
     };
 
     // Updating single user
@@ -216,7 +238,7 @@ export default function DataTable() {
                                     </Button>
                                     <Button
                                         onClick={() => {
-                                            handleDelete(d.id);
+                                            handleDelete(d.title, d.id);
                                         }}
                                         sx={{
                                             ...boxSX,
