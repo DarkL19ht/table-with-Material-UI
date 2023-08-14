@@ -20,18 +20,19 @@ const DataForm = ({ isEdit, singleUser }) => {
         setError(null);
 
         try {
-            const timeout = 5000; // 10 seconds
+            const timeout = 5000; 
             const response = await axios.post("/products", values, { timeout });
-            
+            console.log(values)
             if (response && response.status === 200) {
                 dispatch(handleClose());
                 toastr.success("Registration successful", "Success");
             } else {
                 dispatch(handleClose());
-                toastr.error("An error occurred", "Error");
+                toastr.error("Registration not successful", "Error");
             }
         } catch (error) {
             handleApiError(error);
+            dispatch(handleClose());
             toastr.error("An error occurred", "Error");
         }
     };
@@ -40,18 +41,21 @@ const DataForm = ({ isEdit, singleUser }) => {
         setError(null);
 
         try {
-            const timeout = 5000; // 10 seconds
+            const timeout = 5000; 
             const response = await axios.put(`/products/${id}`, values, {
                 timeout
             });
 
             if (response && response.status === 200) {
+                dispatch(handleClose());
                 toastr.success("Update successful", "Success");
             } else {
+                dispatch(handleClose());
                 toastr.error("An error occurred", "Error");
             }
         } catch (error) {
             handleApiError(error);
+            
         }
     };
 

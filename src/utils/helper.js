@@ -1,5 +1,5 @@
-// const capitalize = (str) => {
+const capitalize = (str) => {
 
-// };
+};
 
-// export default capitalize;
+export default capitalize;

@@ -88,7 +88,7 @@ export default function DataTable() {
                 deleteData(id);
                 fetchData();
                 Swal.fire("Deleted!", "Your file has been deleted.", "success");
-            } else if (result.value != title) {
+            } else if (result.value != title && result.value) {
                 toastr.error("Title doesn't match!", "Error");
             } else {
                 toastr.error("Delete failed!", "Error");
@@ -107,7 +107,8 @@ export default function DataTable() {
         await getSingleData(id);
         setIsEdit(true);
     };
-
+   
+    console.log(columns)
     return (
         <>
             <div>
