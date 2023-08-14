@@ -12,7 +12,7 @@ import { Button } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { handleOpen, handleClose } from "../redux/counter";
 import { useDispatch, useSelector } from "react-redux";
-import { handlePopulate, updateProduct } from "../redux/populate";
+import { handlePopulate } from "../redux/populate";
 
 import Modal from "@mui/material/Modal";
 import AddIcon from "@mui/icons-material/Add";
@@ -39,7 +39,6 @@ export default function DataTable() {
     const dispatch = useDispatch();
 
     const [error, setError] = useState(null);
-
     const { open } = useSelector((state) => state.counter);
 
     const fetchData = async () => {

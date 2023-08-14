@@ -4,6 +4,7 @@ import basicSchema from "../schemas";
 import axios from "../../src/axiosinstance";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { handleOpen, handleClose } from "../redux/counter";
 
 import { handleApiError } from "../errorHandling";
 import toastr from "toastr";
@@ -21,14 +22,17 @@ const DataForm = ({ isEdit, singleUser }) => {
         try {
             const timeout = 5000; // 10 seconds
             const response = await axios.post("/products", values, { timeout });
-
+            
             if (response && response.status === 200) {
+                dispatch(handleClose());
                 toastr.success("Registration successful", "Success");
             } else {
+                dispatch(handleClose());
                 toastr.error("An error occurred", "Error");
             }
         } catch (error) {
             handleApiError(error);
+            toastr.error("An error occurred", "Error");
         }
     };
 

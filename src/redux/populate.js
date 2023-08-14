@@ -11,6 +11,6 @@ export const populateSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { handlePopulate, deleteProduct, updateProduct } = populateSlice.actions;
+export const { handlePopulate, } = populateSlice.actions;
 
 export default populateSlice.reducer;
