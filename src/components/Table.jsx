@@ -6,6 +6,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import productData from "../data/data";
 import { useEffect, useState } from "react";
 import axios from "../../src/axiosinstance";
 import { Button } from "@mui/material";
@@ -29,7 +30,7 @@ const boxSX = {
         backgroundColor: "#00308F"
     }
 };
-
+console.log(productData)
 export default function DataTable() {
     const [columns, setColumns] = useState([]);
     const [records, setRecords] = useState([]);
@@ -53,6 +54,7 @@ export default function DataTable() {
         }
     };
 
+console.log(columns)
     const setUpdate = () => {
         dispatch(handlePopulate(records));
     };
@@ -108,7 +110,7 @@ export default function DataTable() {
         setIsEdit(true);
     };
    
-    console.log(columns)
+   
     return (
         <>
             <div>
