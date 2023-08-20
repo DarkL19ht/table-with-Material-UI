@@ -351,7 +351,7 @@ export default function DataTable() {
             </div>
 
             <MUIDataTable
-                title={"Product List"}
+                title={"PRODUCT LIST"}
                 data={productData}
                 columns={productColumns}
                 options={options}

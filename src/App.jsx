@@ -16,7 +16,6 @@ function App() {
             <main>
                 <div>
                     <Container maxWidth="m" sx={{ m: "auto" }}>
-                        {/* <AddMember /> */}
                         <DataTable />
                     </Container>
                 </div>
