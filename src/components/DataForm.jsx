@@ -1,13 +1,13 @@
 import * as React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import basicSchema from "../schemas";
-import axios from "../../src/axiosinstance";
+import basicSchema from "@/schemas";
+import axios from "@/axiosinstance";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { handleOpen, handleClose } from "../redux/counter";
+import { handleOpen, handleClose } from "@/redux/counter";
 import * as yup from "yup";
 
-import { handleApiError } from "../errorHandling";
+import handleApiError from "@/errorHandling";
 import toastr from "toastr";
 
 const DataForm = ({ isEdit, singleUser }) => {
@@ -16,7 +16,7 @@ const DataForm = ({ isEdit, singleUser }) => {
     const [loading, setLoading] = useState(false);
 
     const _onSubmit = async (values) => {
-        console.log("creating", values);
+        // console.log("creating", values);
         setLoading(true);
         try {
             const timeout = 5000;
@@ -172,8 +172,6 @@ const DataForm = ({ isEdit, singleUser }) => {
                 </Form>
             )}
         </Formik>
-
-       
     );
 };
 export default DataForm;

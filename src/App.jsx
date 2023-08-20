@@ -1,11 +1,8 @@
 import * as React from "react";
 import { AppBar, CssBaseline, Toolbar, Container } from "@mui/material";
-import logo from "./assets/logo.png";
+import logo from "@/assets/logo.png";
 import "./App.css";
-import DataTable from "./components/Table";
-
-
-
+import DataTable from "@/components/Table";
 
 function App() {
     return (

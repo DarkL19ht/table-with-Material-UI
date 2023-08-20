@@ -1,10 +1,20 @@
 //settings for absolute import
+// {
+//     "compilerOptions": {
+//         "paths":{
+//             "@/*":[
+//                 "./src"
+//             ]
+//         }
+//     }
+// }
+
 {
-    "compilerOptions": {
-        "paths":{
-            "@/*":[
-                "./src"
-            ]
-        }
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
     }
+  },
+  "exclude": ["node_modules", "build"]
 }

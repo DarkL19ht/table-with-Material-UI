@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App.jsx";
-import store from "./redux/store";
+import App from "@/App.jsx";
+import store from "@/redux/store";
 import { Provider } from "react-redux";
 
 import axios from "axios";
@@ -13,8 +13,6 @@ toastr.options = {
     progressBar: true,
     closeButton: true
 };
-
-// axios.defaults.baseURL = "http://localhost:3001";
 
 axios.interceptors.request.use((request) => {
     return request;
